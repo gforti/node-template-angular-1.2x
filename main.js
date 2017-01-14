@@ -13,9 +13,9 @@ var routes = require('./app-server/routes');
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3010);
+app.set('port', process.env.PORT || 3010); 
 app.set('json spaces', 2);
-app.set('views', path.join(__dirname, 'app_server', 'views'));
+app.set('views', path.join(__dirname, 'app-server', 'views'));
 app.set('view engine', 'pug');
 app.use(favicon(path.join(__dirname, '/public/favicon.ico')));
 app.use(logger('dev'));
@@ -25,7 +25,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'app_client')));
-
 
 // enable Cross-Origin Resource Sharing (CORS)
 app.use(function(reg, res, next){
@@ -51,6 +50,8 @@ app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
     res.status(401);
     res.json({"message" : err.name + ": " + err.message});
+  } else {
+      next(err);
   }
 });
 

@@ -62,7 +62,6 @@ var gulp = require('gulp'),
     insert = require('gulp-insert'),
     removeEmptyLines = require('gulp-remove-empty-lines'),
     // karma = require('karma'),
-    addStream = require('add-stream'),
     angularTemplateCache = require('gulp-angular-templatecache'),
     nodemon = require('gulp-nodemon');
 
@@ -155,7 +154,9 @@ gulp.task('lint', function () {
 });
 
 
-
+gulp.task('hello', function () {
+   console.log('hello');
+});
 
 
 gulp.task('watch', function () {
