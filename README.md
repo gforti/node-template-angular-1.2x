@@ -10,4 +10,11 @@
 * Code Standards
 * Production Security
  * Environment Variables
- *  
+ * 
+
+#Getting Started
+* Install node.js
+* Install mongoDB
+* npm install
+* Global install of Gulp
+ * npm install --global gulp-cli 
