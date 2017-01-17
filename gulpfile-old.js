@@ -10,6 +10,7 @@
 /* Commands (task)
  ---------------------------------------------------------------
  gulp (runs default which runs build-all)
+
  test ( run your unit testing, spec files )
  serve ( Start your server, runs a build-all, sass, and watch before starting )
  build ( build just your app JS files and template cache )
@@ -41,7 +42,6 @@
  delete-modal
 
 */
-var build = require('./app-task/build-js-app');
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
@@ -154,7 +154,9 @@ gulp.task('lint', function () {
 });
 
 
-gulp.task('hello', build.createJS);
+gulp.task('hello', function () {
+   console.log('hello');
+});
 
 
 gulp.task('watch', function () {

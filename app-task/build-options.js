@@ -29,8 +29,17 @@ const options = {
                 'target': './app-client/widgets/'
             },
             'feature': {
-                'source': './templates/angular/feature-template/',
-                'target': './app-client/'
+                'source' : './templates/angular/feature-template/',
+                'target' : './app-client/',
+                'nameCase' : {
+                    'base' : 'feature-template',
+                    'camel' : 'featureTemplate',
+                    'title' : 'FeatureTemplate'  
+                },
+                'messages' : {
+                    'prompt' : 'Name of feature (must be in "hello-world" format):',
+                    'cancel' : ''
+                }
             },
             'factory': {
                 'source': './templates/angular/factory-template/',
