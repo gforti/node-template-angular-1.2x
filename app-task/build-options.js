@@ -6,21 +6,21 @@
 
 const options = {
     'build': {
-        dist: './public/',
-        css: './public/css/',
-        js: './public/js/'
+        'dist' : './public/',
+        'css' : './public/css/',
+        'js' : './public/js/'
     },
     'js': {
-        src: './app-client/'
+        'src' : './app-client/'
     },
     'css': {
-        sass: './public/css/sass/',
-        css: './public/css/',
-        mainFile: './public/css/sass/style.scss'
+        'sass' : './sass/',
+        'css' : './public/css/',
+        'mainFile' : './sass/application.scss'
     },
     'images': {
-        path: ['./webapp/public/vendor/images/**/*.{png,gif,jpg,svg}'],
-        folder: 'img/'
+        'path': ['./webapp/public/vendor/images/**/*.{png,gif,jpg,svg}'],
+        'folder': 'img/'
     },
     'templates': {
         'angular': {

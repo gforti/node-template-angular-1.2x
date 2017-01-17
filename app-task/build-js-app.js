@@ -11,6 +11,7 @@ var options = require('./build-options'),
     prompt = require("gulp-prompt"),
     replace = require('gulp-replace'),    
     rename = require('gulp-rename'),
+    insert = require('gulp-insert')
     gutil = require('gulp-util');
 
 var choices = Object.keys(options.templates.angular),
@@ -122,14 +123,15 @@ function createTemplate(baseName, opts) {
         .pipe(gulp.dest(opts.target + baseName))
         .on('error', gutil.log)
         .on('end', function() {
+            addSaasTemplateToStyles(baseName, opts);
             gutil.log('Creating template', baseName, 'Completed' );
         });
 }
 
 
-function addSaasTemplateToStyles(name) {
+function addSaasTemplateToStyles(baseName, opts) {
     return gulp.src(options.css.mainFile)
-        .pipe(insert.append('@import "' + options.templates.feature.folder + name + '/' + name + '";\n'))
+        .pipe(insert.append('\n@import "' + opts.target + baseName + '/' + baseName + '";'))
         .pipe(gulp.dest(options.css.sass)).on('error', gutil.log);
 }
 
