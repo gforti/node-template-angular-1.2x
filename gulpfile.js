@@ -41,7 +41,7 @@
  delete-modal
 
 */
-var build = require('./app-task/build-js-app');
+var buildJSApp = require('./app-task/build-js-app');
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
@@ -154,7 +154,7 @@ gulp.task('lint', function () {
 });
 
 
-gulp.task('hello', build.createJS);
+gulp.task('hello', buildJSApp.create);
 
 
 gulp.task('watch', function () {

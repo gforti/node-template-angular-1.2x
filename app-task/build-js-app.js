@@ -13,76 +13,84 @@ var options = require('./build-options'),
     rename = require('gulp-rename'),
     gutil = require('gulp-util');
 
+var choices = Object.keys(options.templates.angular),
+    choiceDefault = choices.length;
+const _CANCEL_ = 'Cancel';
+    choices.push(_CANCEL_);
+    
 
-module.exports.createJS = create;
+    
+module.exports.create = createPrompt;
 
-function create() {
+function createPrompt() {
+    
+    var promptTask = getPromptTask('create');
     
     gulp.src('')
-    .pipe(prompt.prompt({
-        'type' : 'rawlist',
-        'name' : 'task',
-        'message' : 'Which CREATE task would you like to run?',
-        'choices' : ['feature', 'provider', 'service', 'factory', 'widget', 'modal', 'Cancel'],
-        'default' : 6
-    }, function(res){
-        
-        if ( res.task && res.task !== 'Cancel' ) {
+        .pipe(prompt.prompt(promptTask, promptHandle));
+    
+    function promptHandle(res) {
+        if ( res.task && res.task !== _CANCEL_ ) {
             gutil.log('Task Selected:', res.task); 
             createTask(res.task);
         } else {
-            gutil.log("Task has been canceled.");
+            gutil.log('Task has been canceled.');
         }
-               
-    }));
-    
-    
+    } 
 }
 
 function createTask(type){
-    if ( ! options.templates.angular.hasOwnProperty(type) ) {
-        gutil.log("Task has been canceled. Could not find options.");
+    
+    if ( !options.templates.angular.hasOwnProperty(type) ) {
+        gutil.log("Task has been canceled. Could not find option.");
         return;
     }
+    
     var opts = options.templates.angular[type],
         promptInfo = [{
             type: 'input',
             name: 'name',
             message: opts.messages.prompt
         }];
+    // fix callback hell
+    gulp.src('')
+        .pipe(prompt.prompt(promptInfo, promptHandle));
     
-     gulp.src('')
-        .pipe(prompt.prompt(promptInfo, function (res) {
+    
+    function promptHandle(res) {
         if (!res.name) {
             gutil.log('Task has been canceled. Empty Input');
         } else {            
             try {
                 fs.statSync(opts.target + res.name);
+                var promptInfoConfirm = {
+                        'type' : 'rawlist',
+                        'name' : 'finish',
+                        'message' : res.name + ' already exist, are you sure you want to continue?',
+                        'choices' : ['Continue', 'Cancel'],
+                        'default' : 1
+                    };
                 gulp.src('')
-                .pipe(prompt.prompt({
-                    'type' : 'rawlist',
-                    'name' : 'finish',
-                    'message' : res.name + ' already exist, are you sure you want to continue?',
-                    'choices' : ['Continue', 'Cancel'],
-                    'default' : 1
-                }, function(confirm){
-                   
+                .pipe(prompt.prompt(promptInfoConfirm, promptConfirm));
+                                
+                function promptConfirm(confirm) {
                     gutil.log('Confirm Selection', confirm.finish);
                     if ( confirm.finish === 'Continue' ) {
                         createTemplate(res.name, opts);
                     }
-                }));
-                
+                }
                                
             } catch(e) {
-                createTemplate(res.name, opts);
-                 /* continue, no issues */
+                 /* continue, no directory issues */
+                createTemplate(res.name, opts);                
             }
     
             
             //addFeatureToStyles(res.name).on('error', gutil.log);
         }
-    }));
+    }
+    
+    
     
 }
 
@@ -147,4 +155,15 @@ function lowerCaseFirstLetter(string) {
         return;
     }
     return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+
+function getPromptTask(command) {
+     return {
+        'type' : 'rawlist',
+        'name' : 'task',
+        'message' : 'Which ' +command+ ' task would you like to run?',
+        'choices' : choices,
+        'default' : choiceDefault
+    }; 
 }
