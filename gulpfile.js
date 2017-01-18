@@ -41,7 +41,8 @@
  delete-modal
 
 */
-var generateJS = require('./app-task/generate-js');
+var generateJS = require('./app-task/generate-js'),
+    compileSass = require('./app-task/build-saas');
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
@@ -155,6 +156,7 @@ gulp.task('lint', function () {
 
 
 gulp.task('hello', generateJS.create);
+gulp.task('world', compileSass.compile);
 
 
 gulp.task('watch', function () {

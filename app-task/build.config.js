@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-const options = {
+const CONFIG = {
     'build': {
         'dist' : './public/',
         'css' : './public/css/',
@@ -15,7 +15,7 @@ const options = {
     },
     'css': {
         'sass' : './sass/',
-        'css' : './public/css/',
+        'public' : './public/css/',
         'mainFile' : './sass/application.scss'
     },
     'images': {
@@ -62,4 +62,4 @@ const options = {
 };
 
 
-module.exports = options;
+module.exports = CONFIG;

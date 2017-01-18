@@ -5,7 +5,7 @@
  */
 
 
-var options = require('./build-options'),
+var config = require('./build.config'),
     fs = require('fs'),
     gulp = require('gulp'),
     prompt = require("gulp-prompt"),
@@ -14,7 +14,7 @@ var options = require('./build-options'),
     insert = require('gulp-insert'),
     gutil = require('gulp-util');
 
-var choices = Object.keys(options.templates.angular),
+var choices = Object.keys(config.templates.angular),
     choiceDefault = choices.length;
 const _CANCEL_ = 'Cancel';
     choices.push(_CANCEL_);
@@ -42,12 +42,12 @@ function createPrompt() {
 
 function createTask(type){
     
-    if ( !options.templates.angular.hasOwnProperty(type) ) {
+    if ( !config.templates.angular.hasOwnProperty(type) ) {
         gutil.log("Task has been canceled. Could not find option.");
         return;
     }
     
-    var opts = options.templates.angular[type],
+    var opts = config.templates.angular[type],
         promptInfo = [{
             type: 'input',
             name: 'name',
@@ -130,9 +130,9 @@ function createTemplate(baseName, opts) {
 
 
 function addSaasTemplateToStyles(baseName, opts) {
-    return gulp.src(options.css.mainFile)
+    return gulp.src(config.css.mainFile)
         .pipe(insert.append('\n@import "' + opts.target + baseName + '/' + baseName + '";'))
-        .pipe(gulp.dest(options.css.sass)).on('error', gutil.log);
+        .pipe(gulp.dest(config.css.sass)).on('error', gutil.log);
 }
 
 

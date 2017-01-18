@@ -5,3 +5,27 @@
  */
 
 
+var config = require('./build.config'),
+    gulp = require('gulp'),
+    path = require('path'),
+    sass = require('gulp-sass'),
+    sourcemaps = require('gulp-sourcemaps'),
+    gutil = require('gulp-util');
+
+
+module.exports.compile = compileSass;
+
+function compileSass() {
+    gulp.src(path.join(config.css.sass, '**/*.scss'))
+        .pipe(sourcemaps.init())
+        .pipe(sass({
+            outputStyle: 'expanded',
+            errLogToConsole: true
+        }))
+        .pipe(sourcemaps.write('./maps/'))
+        .pipe(gulp.dest(config.css.public))
+        .on('error', gutil.log)
+        .on('end', function() {
+            gutil.log('Compling Sass Completed');
+        });
+}
