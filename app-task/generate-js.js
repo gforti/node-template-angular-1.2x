@@ -11,7 +11,7 @@ var options = require('./build-options'),
     prompt = require("gulp-prompt"),
     replace = require('gulp-replace'),    
     rename = require('gulp-rename'),
-    insert = require('gulp-insert')
+    insert = require('gulp-insert'),
     gutil = require('gulp-util');
 
 var choices = Object.keys(options.templates.angular),
