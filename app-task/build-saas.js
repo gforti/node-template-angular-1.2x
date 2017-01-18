@@ -30,7 +30,6 @@ function compileSass(dir) {
         }))
         .pipe(sourcemaps.write('./maps/'))
         .pipe(gulp.dest(config.css.public))
-        .on('error', gutil.log)
         .on('end', function() {
             gutil.log('Compling Sass',dir,'Completed');
         });
