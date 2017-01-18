@@ -13,10 +13,16 @@ var config = require('./build.config'),
     gutil = require('gulp-util');
 
 
-module.exports.compile = compileSass;
+module.exports.compile = compileSassFiles;
 
-function compileSass() {
-    gulp.src(path.join(config.css.sass, '**/*.scss'))
+function compileSassFiles() {  
+    compileSass(config.css.vendor);
+    compileSass(config.css.sass);    
+}
+
+
+function compileSass(dir) {
+    gulp.src(path.join(dir, '**/*.scss'))
         .pipe(sourcemaps.init())
         .pipe(sass({
             outputStyle: 'expanded',
@@ -26,6 +32,6 @@ function compileSass() {
         .pipe(gulp.dest(config.css.public))
         .on('error', gutil.log)
         .on('end', function() {
-            gutil.log('Compling Sass Completed');
+            gutil.log('Compling Sass',dir,'Completed');
         });
 }

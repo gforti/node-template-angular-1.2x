@@ -14,9 +14,11 @@ const CONFIG = {
         'src' : './app-client/'
     },
     'css': {
-        'sass' : './sass/',
+        'sass' : './sass/app/',
+        'vendor' : './sass/vendors/',
         'public' : './public/css/',
-        'mainFile' : './sass/application.scss'
+        'mainFile' : './sass/application.scss',
+        'vendorFile' : './sass/vendors/vendors.scss'
     },
     'images': {
         'path': ['./webapp/public/vendor/images/**/*.{png,gif,jpg,svg}'],
