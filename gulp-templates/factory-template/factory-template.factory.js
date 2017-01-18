@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc service
-     * @name pdr.featureTemplate.FactoryTemplateFactory
+     * @name app.featureTemplate.FactoryTemplateFactory
      * @description Provides a base model factory for featureTemplate
      *
      * Pseudo-classical pattern
@@ -36,7 +36,7 @@
      */
 
     angular
-        .module('pdr.featureTemplate')
+        .module('app.featureTemplate')
         .factory('FactoryTemplateFactory', FactoryTemplateFactory);
 
     FactoryTemplateFactory.$inject = [];
@@ -48,7 +48,7 @@
         /**
          * @ngdoc method
          * @name Model
-         * @methodOf pdr.featureTemplate.FactoryTemplateFactory
+         * @methodOf app.featureTemplate.FactoryTemplateFactory
          * @param {object=} optional config
          * @returns {void}
          */
@@ -64,7 +64,7 @@
             /**
              * @ngdoc method
              * @name sampleMethod
-             * @methodOf pdr.featureTemplate.FactoryTemplateFactory
+             * @methodOf app.featureTemplate.FactoryTemplateFactory
              * @returns {*} The instance
              */
             'sampleMethod': function () {
@@ -73,7 +73,7 @@
             /**
              * @ngdoc method
              * @name sampleMethod
-             * @methodOf pdr.featureTemplate.FactoryTemplateFactory
+             * @methodOf app.featureTemplate.FactoryTemplateFactory
              * @returns {void}
              */
             'overRideSampleMethod': function () {
@@ -82,7 +82,7 @@
             /**
              * @ngdoc method
              * @name getSampleProperty
-             * @methodOf pdr.featureTemplate.FactoryTemplateFactory
+             * @methodOf app.featureTemplate.FactoryTemplateFactory
              * @returns {null}
              */
             'getSampleProperty': function () {
@@ -91,7 +91,7 @@
             /**
              * @ngdoc method
              * @name setSampleProperty
-             * @methodOf pdr.featureTemplate.FactoryTemplateFactory
+             * @methodOf app.featureTemplate.FactoryTemplateFactory
              * @param {string} str
              * @returns {*} The instance
              */
@@ -100,7 +100,7 @@
                 if ( angular.isString(str) ) {
                     this._properties.sampleProperty = str;
                 } else {
-                    throw new Error('Only a string is allowed for the method pdr.featureTemplate.FactoryTemplateFactory.setSampleProperty');
+                    throw new Error('Only a string is allowed for the method app.featureTemplate.FactoryTemplateFactory.setSampleProperty');
                 }
 
                 return this;

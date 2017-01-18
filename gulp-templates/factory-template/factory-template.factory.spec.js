@@ -3,7 +3,7 @@
     describe('Service: FactoryTemplateFactory', function() {
         var service, config = {};
 
-        beforeEach(module('pdr'));
+        beforeEach(module('app'));
 
         beforeEach(inject(function(_FactoryTemplateFactory_) {
             service = _FactoryTemplateFactory_;

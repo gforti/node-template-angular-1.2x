@@ -8,7 +8,7 @@
         var compile, scope, directiveElem;
 
         beforeEach(function(){
-            module('pdr');
+            module('app');
 
             inject(function($compile, $rootScope){
                 compile = $compile;

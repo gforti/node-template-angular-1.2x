@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     describe('Controller: FeatureTemplateController', function() {
-        beforeEach(module('pdr'));
+        beforeEach(module('app'));
 
         var Controller;
 

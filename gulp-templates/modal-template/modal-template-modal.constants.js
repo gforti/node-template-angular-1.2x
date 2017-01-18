@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc object
-     * @name pdr.widgets.ModalTemplateModalConstants
+     * @name app.widgets.ModalTemplateModalConstants
      * @description
      *
      * This script loads all the constants for feature-template
@@ -11,7 +11,7 @@
      */
 
     angular
-        .module('pdr.widgets')
+        .module('app.widgets')
         .constant('ModalTemplateModalConstants', {
             'RequestEndpoints': {
                 'RestService': ''

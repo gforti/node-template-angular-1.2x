@@ -3,7 +3,7 @@
     describe('Service: FeatureTemplateProvider', function() {
         var service;
 
-        beforeEach(module('pdr'));
+        beforeEach(module('app'));
 
         beforeEach(inject(function(_FeatureTemplateProvider_) {
             service = _FeatureTemplateProvider_;
