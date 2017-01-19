@@ -42,7 +42,8 @@
 
 */
 var generateJS = require('./app-task/generate-js'),
-    compileSass = require('./app-task/build-saas');
+    compileSass = require('./app-task/build-saas'),
+    bundleJS = require('./app-task/bundle-js');
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
@@ -157,6 +158,7 @@ gulp.task('lint', function () {
 
 gulp.task('hello', generateJS.create);
 gulp.task('world', compileSass.compile);
+gulp.task('bud', bundleJS.bundleVendor);
 
 
 gulp.task('watch', function () {

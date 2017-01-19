@@ -10,8 +10,47 @@ const CONFIG = {
         'css' : './public/css/',
         'js' : './public/js/'
     },
+    'bundleApp' : {
+        'bundle' : {
+            'application' : {
+                'scripts' : [
+                    '!./app-client/**/*.spec.js',
+                    './app-client/**/*.js'                
+                ],
+                'options' : {
+                    'uglify' : false,
+                    'rev' : false,
+                    'order' : {
+                        'scripts' : [
+                            './app-client/app.module.js',
+                            './app-client/**/*.module.js'
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    'bundleVendor' : {
+        'bundle' : {
+            'vendors' : {
+                'scripts' : [
+                    'node_modules/angular/angular.js',
+                    'node_modules/angular-ui-router/build/angular-ui-router.js',
+                    'node_modules/angular-sanitize/angular-sanitize.js',
+                    'node_modules/angular-loader/angular-loader.js',
+                    'node_modules/angular-filter/dist/angular-filter.js'               
+                ],
+                'options' : {
+                    'uglify' : true,
+                    'rev' : false
+                }
+            }
+        }
+    },
     'js': {
-        'src' : './app-client/'
+        'module' : 'app',
+        'src' : './app-client/',
+        'cache' : './app-client/**/*.cache.html'
     },
     'css': {
         'sass' : './sass/app/',
