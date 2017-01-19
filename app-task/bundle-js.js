@@ -23,7 +23,7 @@ function bundleAll() {
 
 
 function prepareTemplates() {
-    return gulp.src([config.js.cache])
+    return gulp.src(config.js.cache)
         .pipe(angularTemplateCache({
             root: 'cache/',
             module: config.js.module
@@ -37,17 +37,21 @@ function bundleApp() {
     prepareTemplates();
     return gulp.src(config.bundleApp)
         .pipe(bundle())
-        .pipe(gulp.dest(config.build.js))
-        .on('error', gutil.log);
+        .pipe(bundle.results('./'))
+        .pipe(gulp.dest(config.build.js)));
 }
 
 function bundleVendor() {
-    gutil.log('Bundle vendor start' );
-    return gulp.src('./bundle.config.js')
-        .pipe(bundle())
-        .pipe(gulp.dest('public/js'))
-        .on('error', gutil.log)
-        .on('end', function() {
-            gutil.log('Bundle vendor Completed' );
-        });;
+      
+    return gulp.src(config.bundleVendor)
+        .pipe(bundle())        
+        .pipe(bundle.results('./'))
+        .pipe(gulp.dest('./public/js'));
+}
+
+
+function cleanJSFolder () {
+    
+  return gulp.src('./public', { read: false })
+    .pipe(rimraf());
 }
