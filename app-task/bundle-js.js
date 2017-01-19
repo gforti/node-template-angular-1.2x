@@ -42,8 +42,12 @@ function bundleApp() {
 }
 
 function bundleVendor() {
-    return gulp.src('./test.js')
+    gutil.log('Bundle vendor start' );
+    return gulp.src('./bundle.config.js')
         .pipe(bundle())
-        .pipe(gulp.dest(config.build.js))
-        .on('error', gutil.log);
+        .pipe(gulp.dest('public/js'))
+        .on('error', gutil.log)
+        .on('end', function() {
+            gutil.log('Bundle vendor Completed' );
+        });;
 }
