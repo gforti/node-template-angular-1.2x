@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc controller
-     * @name pdr.featureTemplate.FeatureTemplateController
+     * @name app.featureTemplate.FeatureTemplateController
      * @requires
      * @description
      *
@@ -11,7 +11,7 @@
      */
 
     angular
-        .module('pdr.featureTemplate')
+        .module('app.featureTemplate')
         .controller('FeatureTemplateController', FeatureTemplateController);
 
     FeatureTemplateController.$inject = ['FeatureTemplateProvider'];
@@ -31,7 +31,7 @@
         /**
          * @ngdoc method
          * @name activate
-         * @methodOf pdr.featureTemplate.FeatureTemplateController
+         * @methodOf app.featureTemplate.FeatureTemplateController
          * @returns {void} Runs the functions needed when the controller is active
          */
         function activate() {

@@ -9,23 +9,16 @@ module.exports = {
     'bundle' : {
         'application' : {
             'scripts' : [
-                '!./app-client/**/*.spec.js',
-                './app-client/**/*.js'                
+                '!app-client/**/*.spec.js',
+                'app-client/**/*.js'                
             ],
             'options' : {
                 'uglify' : false,
-                'rev' : false,
-                'result' : {
-                    'type' : {
-                        'scripts' : function xJavascript(path) {
-                            return '/js/' + path;
-                        }
-                    }
-                },
+                'rev' : false,                
                 'order' : {
                     'scripts' : [
-                        './app-client/app.module.js',
-                        './app-client/**/*.module.js'
+                        'app-client/*.module.js',
+                        'app-client/**/*.module.js'
                     ]
                 }
             }

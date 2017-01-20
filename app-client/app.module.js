@@ -12,6 +12,6 @@
      *   - loads all the submodules for the entire application
      *
      */
-    angular.module('app', ['ngRoute']);
+    angular.module('app', ['ui.router']);
     
 })();

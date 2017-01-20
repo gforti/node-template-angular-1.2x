@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc overview
-     * @name pdr.featureTemplate
+     * @name app.featureTemplate
      * @requires
      * @description
      *
@@ -13,8 +13,8 @@
      *
      */
 
-    angular.module('pdr.featureTemplate', []);
+    angular.module('app.featureTemplate', []);
 
-    angular.module('pdr').requires.push('pdr.featureTemplate');
+    angular.module('app').requires.push('app.featureTemplate');
 
 })();

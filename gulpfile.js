@@ -158,7 +158,8 @@ gulp.task('lint', function () {
 
 gulp.task('hello', generateJS.create);
 gulp.task('world', compileSass.compile);
-gulp.task('bud', bundleJS.bundleVendor);
+gulp.task('app', bundleJS.bundleApp);
+gulp.task('bud', bundleJS.bundleAll);
 
 
 gulp.task('watch', function () {

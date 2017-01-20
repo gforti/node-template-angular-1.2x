@@ -11,7 +11,7 @@ const CONFIG = {
         'js' : './public/js/'
     },
     'bundleApp' : './app-task/bundle-app.config.js',
-    'bundleVendor' : './app-task/bundle-vendor.config.js',
+    'bundleAll' : './app-task/bundle-all.config.js',
     'js': {
         'module' : 'app',
         'src' : './app-client/',

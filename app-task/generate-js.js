@@ -104,6 +104,7 @@ function createTemplate(baseName, opts) {
 
     gutil.log('Creating template', baseName);
     gulp.src(opts.source + "*")
+        .pipe(replace('app', config.js.module))
         .pipe(replace(opts.nameCase.title, nameTitleCase))
         .pipe(replace(opts.nameCase.title, nameTitleCase))
         .pipe(replace(opts.nameCase.camel, nameCamelCase))

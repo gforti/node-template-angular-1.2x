@@ -7,9 +7,9 @@ html
     link(rel='stylesheet', href='/css/application.css')
   body(ng-app="app")
     .container
-        div(ng-view ng-cloak)
+        div(ui-view ng-cloak)
             block content
     
-    script(src='/js/vendors.js')
-    script(src='/js/application.js')
-    script(src='/js/templates.js')
+    each val in bundle
+        script(type="text/javascript", src=''+val.scripts)
+      

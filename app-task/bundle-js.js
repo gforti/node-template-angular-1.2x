@@ -14,13 +14,14 @@ var config = require('./build.config'),
 
 module.exports.bundleAll = bundleAll;
 module.exports.bundleApp = bundleApp;
-module.exports.bundleVendor = bundleVendor;
 
 function bundleAll() {
-    bundleApp();
-    bundleVendor();
+    prepareTemplates().on('end', function() {  bundleFiles(config.bundleAll); }); 
 }
 
+function bundleApp() {
+    prepareTemplates().on('end', function() {  bundleFiles(config.bundleApp); });   
+}
 
 function prepareTemplates() {
     return gulp.src(config.js.cache)
@@ -32,23 +33,12 @@ function prepareTemplates() {
         .on('error', gutil.log);
 }
 
-
-function bundleApp() {
-    prepareTemplates();
-    return gulp.src(config.bundleApp)
+function bundleFiles(fileSrc) {
+     return gulp.src(fileSrc)
         .pipe(bundle())
         .pipe(bundle.results('./'))
-        .pipe(gulp.dest(config.build.js)));
-}
-
-function bundleVendor() {
-      
-    return gulp.src(config.bundleVendor)
-        .pipe(bundle())        
-        .pipe(bundle.results('./'))
-        .pipe(gulp.dest('./public/js'));
-}
-
+        .pipe(gulp.dest(config.build.js));
+} 
 
 function cleanJSFolder () {
     

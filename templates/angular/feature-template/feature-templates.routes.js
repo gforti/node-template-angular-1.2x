@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc object
-     * @name pdr.featureTemplate.featureTemplateRoutes
+     * @name app.featureTemplate.featureTemplateRoutes
      * @requires $stateProvider
      * @description
      *
@@ -11,7 +11,7 @@
      *
      */
 
-    angular.module('pdr.featureTemplate')
+    angular.module('app.featureTemplate')
         .config(featureTemplateRoutes);
 
     featureTemplateRoutes.$inject = ['$stateProvider'];
