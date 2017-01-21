@@ -5,9 +5,33 @@
  */
 
 
+
+var lazypipe = require('lazypipe'),
+    gulpif = require('gulp-if'),
+    sass = require('gulp-sass');
+    
+    
+var styleTransforms = lazypipe()
+  .pipe(function() {
+    return gulpif(isScssFile, sass({
+            outputStyle: 'expanded',
+            errLogToConsole: true
+        }));
+  });
+
+function stringEndsWith(str, suffix) {
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+function isScssFile(file) {
+  return stringEndsWith(file.relative, 'scss');
+}
+
+
+
 module.exports = {
     'bundle' : {
-        'vendors' : {
+        'dist/vendors' : {
             'scripts' : [
                 'node_modules/angular/angular.js',
                 'node_modules/angular-ui-router/build/angular-ui-router.js',
@@ -15,32 +39,34 @@ module.exports = {
                 'node_modules/angular-loader/angular-loader.js',
                 'node_modules/angular-filter/dist/angular-filter.js'               
             ],
+            'styles' : 'sass/vendors/vendors.scss',
             'options' : {
                 'uglify' : true,
+                'minCss' : true,
                 'rev' : false,
                 'result' : {
-                    'type' : {
-                        'scripts' : function xJavascript(path) {
-                            return '/js/' + path;
-                        }
-                    }
+                    'type' : 'plain'
+                },
+                'transforms' : {
+                    'styles' : styleTransforms
                 }
             }
         },
-        'application' : {
+        'dist/application' : {
             'scripts' : [
                 '!app-client/**/*.spec.js',
                 'app-client/**/*.js'                
             ],
+            'styles' : 'sass/app/application.scss',
             'options' : {
                 'uglify' : false,
+                'minCss' : false,
                 'rev' : false,
                 'result' : {
-                    'type' : {
-                        'scripts' : function xJavascript(path) {
-                             return '/js/' + path;
-                        }
-                    }
+                    'type' : 'plain'
+                },
+                'transforms' : {
+                    'styles' : styleTransforms
                 },
                 'order' : {
                     'scripts' : [
@@ -50,17 +76,13 @@ module.exports = {
                 }
             }
         },
-        'templates' : {
+        'dist/templates' : {
             'scripts' : 'public/js/templates.js',
             'options' : {
                 'uglify' : false,
                 'rev' : false,
                 'result' : {
-                    'type' : {
-                        'scripts' : function xJavascript(path) {
-                             return '/js/' + path;
-                        }
-                    }
+                    'type' : 'plain'
                 }
             }               
         }        

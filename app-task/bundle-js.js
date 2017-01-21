@@ -7,6 +7,7 @@
 
 var config = require('./build.config'),
     gulp = require('gulp'),
+    gulpif = require('gulp-if'),
     bundle = require('gulp-bundle-assets'),
     angularTemplateCache = require('gulp-angular-templatecache'),
     gutil = require('gulp-util');
@@ -16,7 +17,7 @@ module.exports.bundleAll = bundleAll;
 module.exports.bundleApp = bundleApp;
 
 function bundleAll() {
-    prepareTemplates().on('end', function() {  bundleFiles(config.bundleAll); }); 
+    prepareTemplates().on('end', function() {  bundleFiles(config.bundleAll, true); }); 
 }
 
 function bundleApp() {
@@ -33,15 +34,16 @@ function prepareTemplates() {
         .on('error', gutil.log);
 }
 
-function bundleFiles(fileSrc) {
+function bundleFiles(fileSrc, createResults) {
+    createResults = Boolean(createResults) || false;
      return gulp.src(fileSrc)
         .pipe(bundle())
-        .pipe(bundle.results('./'))
-        .pipe(gulp.dest(config.build.js));
+        .pipe( gulpif(createResults, bundle.results(config.build.server)) )
+        .pipe(gulp.dest(config.build.dist));
 } 
 
 function cleanJSFolder () {
     
-  return gulp.src('./public', { read: false })
+  return gulp.src(config.build.js, { read: false })
     .pipe(rimraf());
 }

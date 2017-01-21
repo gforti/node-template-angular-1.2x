@@ -2,14 +2,16 @@ doctype html
 html
   head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title= title   
-    link(rel='stylesheet', href='/css/vendors.css')
-    link(rel='stylesheet', href='/css/application.css')
-  body(ng-app="app")
+    title= title 
+    each val in bundle 
+        if val.styles
+            link( href=val.styles, media='all', rel='stylesheet', type='text/css' )    
+  body(ng-app=moduleName)
     .container
         div(ui-view ng-cloak)
             block content
     
     each val in bundle
-        script(type="text/javascript", src=''+val.scripts)
+        if val.scripts
+            script( src=val.scripts, type='text/javascript' )
       

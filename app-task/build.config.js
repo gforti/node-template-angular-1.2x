@@ -7,8 +7,9 @@
 const CONFIG = {
     'build': {
         'dist' : './public/',
-        'css' : './public/css/',
-        'js' : './public/js/'
+        'css' : './public/dist/',
+        'js' : './public/dist/',
+        'server' : './app-server/'
     },
     'bundleApp' : './app-task/bundle-app.config.js',
     'bundleAll' : './app-task/bundle-all.config.js',
@@ -21,7 +22,7 @@ const CONFIG = {
         'sass' : './sass/app/',
         'vendor' : './sass/vendors/',
         'public' : './public/css/',
-        'mainFile' : './sass/application.scss',
+        'mainFile' : './sass/app/application.scss',
         'vendorFile' : './sass/vendors/vendors.scss'
     },
     'images': {

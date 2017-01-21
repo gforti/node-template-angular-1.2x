@@ -7,7 +7,7 @@
 
 module.exports = {
     'bundle' : {
-        'application' : {
+        'js/application' : {
             'scripts' : [
                 '!app-client/**/*.spec.js',
                 'app-client/**/*.js'                

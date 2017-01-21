@@ -1,4 +1,4 @@
 nbproject/
 node_modules/
 *.log
-/bundle.result.json
+bundle.result.json
