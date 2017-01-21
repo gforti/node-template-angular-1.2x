@@ -8,38 +8,27 @@
 var config = require('./build.config'),
     gulp = require('gulp'),
     gulpif = require('gulp-if'),
-    bundle = require('gulp-bundle-assets'),
-    angularTemplateCache = require('gulp-angular-templatecache'),
-    gutil = require('gulp-util');
+    bundle = require('gulp-bundle-assets');
 
 
 module.exports.bundleAll = bundleAll;
 module.exports.bundleApp = bundleApp;
 
 function bundleAll() {
-    prepareTemplates().on('end', function() {  bundleFiles(config.bundleAll, true); }); 
+    bundleFiles(config.bundleAll, true);   
 }
 
 function bundleApp() {
-    prepareTemplates().on('end', function() {  bundleFiles(config.bundleApp); });   
+    bundleFiles(config.bundleApp);  
 }
 
-function prepareTemplates() {
-    return gulp.src(config.js.cache)
-        .pipe(angularTemplateCache({
-            root: 'cache/',
-            module: config.js.module
-        }))
-        .pipe(gulp.dest(config.build.js))
-        .on('error', gutil.log);
-}
 
 function bundleFiles(fileSrc, createResults) {
     createResults = Boolean(createResults) || false;
      return gulp.src(fileSrc)
         .pipe(bundle())
         .pipe( gulpif(createResults, bundle.results(config.build.server)) )
-        .pipe(gulp.dest(config.build.dist));
+        .pipe(gulp.dest(config.build.public));
 } 
 
 function cleanJSFolder () {

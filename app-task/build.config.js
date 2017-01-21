@@ -6,7 +6,7 @@
 
 const CONFIG = {
     'build': {
-        'dist' : './public/',
+        'public' : './public/',
         'css' : './public/dist/',
         'js' : './public/dist/',
         'server' : './app-server/'

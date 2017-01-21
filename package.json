@@ -12,7 +12,8 @@
   "contributors": [],
   "scripts": {
     "start": "node main.js",
-    "build-all" : "gulp bud"
+    "bundle-all" : "gulp bundle-all",
+    "create" : "gulp create"
   },
   "dependencies": {
     "angular": "1.2.28",

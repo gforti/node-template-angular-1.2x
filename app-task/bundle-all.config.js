@@ -6,7 +6,10 @@
 
 
 
-var lazypipe = require('lazypipe'),
+var config = require('./build.config'),
+    gulp = require('gulp'),
+    angularTemplateCache = require('gulp-angular-templatecache'),
+    lazypipe = require('lazypipe'),
     gulpif = require('gulp-if'),
     sass = require('gulp-sass');
     
@@ -18,6 +21,15 @@ var styleTransforms = lazypipe()
             errLogToConsole: true
         }));
   });
+  
+  
+  var scriptTransforms = lazypipe()
+  .pipe(function() {
+      return angularTemplateCache({
+            root: 'cache/',
+            module: config.js.module
+        });
+    });
 
 function stringEndsWith(str, suffix) {
   return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -77,10 +89,13 @@ module.exports = {
             }
         },
         'dist/templates' : {
-            'scripts' : 'public/js/templates.js',
+            'scripts' : 'app-client/**/*.cache.html',
             'options' : {
                 'uglify' : false,
                 'rev' : false,
+                'transforms' : {
+                    'scripts' : scriptTransforms
+                },
                 'result' : {
                     'type' : 'plain'
                 }
