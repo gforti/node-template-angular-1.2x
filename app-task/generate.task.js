@@ -5,7 +5,7 @@
  */
 
 
-var config = require('./build.config'),
+var config = require('./task.config'),
     fs = require('fs'),
     gulp = require('gulp'),
     prompt = require("gulp-prompt"),

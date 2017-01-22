@@ -6,7 +6,8 @@
 
 
 
-var config = require('./build.config'),
+var config = require('./task.config'),
+    angularModule = require('../app.config').appClient.module,
     gulp = require('gulp'),
     angularTemplateCache = require('gulp-angular-templatecache'),
     lazypipe = require('lazypipe'),
@@ -27,7 +28,7 @@ var styleTransforms = lazypipe()
   .pipe(function() {
       return angularTemplateCache({
             root: 'cache/',
-            module: config.js.module
+            module: angularModule
         });
     });
 

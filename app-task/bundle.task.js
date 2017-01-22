@@ -5,7 +5,7 @@
  */
 
 
-var config = require('./build.config'),
+var config = require('./task.config'),
     gulp = require('gulp'),
     gulpif = require('gulp-if'),
     bundle = require('gulp-bundle-assets');
