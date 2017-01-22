@@ -23,8 +23,12 @@ module.exports.styleTransforms = lazypipe()
 module.exports.scriptTransforms = lazypipe()
   .pipe(function() {
         return gulpif(isCacheFile, angularTemplateCache({
-            root: 'cache/',
-            module: angularModule
+            root: '',
+            moduleSystem : 'IIFE',
+            module: angularModule,
+            transformUrl: function(url) {
+                return url.replace(/(.*)app-client/, 'cache');
+            }
         }));
     });
 

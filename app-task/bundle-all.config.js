@@ -6,39 +6,9 @@
 
 
 
-var config = require('./task.config'),
-    angularModule = require('../app.config').appClient.module,
-    gulp = require('gulp'),
-    angularTemplateCache = require('gulp-angular-templatecache'),
-    lazypipe = require('lazypipe'),
-    gulpif = require('gulp-if'),
-    sass = require('gulp-sass');
-    
-    
-var styleTransforms = lazypipe()
-  .pipe(function() {
-    return gulpif(isScssFile, sass({
-            outputStyle: 'expanded',
-            errLogToConsole: true
-        }));
-  });
-  
-  
-  var scriptTransforms = lazypipe()
-  .pipe(function() {
-      return angularTemplateCache({
-            root: 'cache/',
-            module: angularModule
-        });
-    });
-
-function stringEndsWith(str, suffix) {
-  return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
-
-function isScssFile(file) {
-  return stringEndsWith(file.relative, 'scss');
-}
+var services = require('./bundle.service'),
+    styleTransforms = services.styleTransforms,
+    scriptTransforms = services.scriptTransforms;
 
 
 
