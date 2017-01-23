@@ -14,7 +14,7 @@
     "start": "node main.js",
     "bundle-all" : "gulp bundle-all",
     "bundle-app" : "gulp app",
-    "create" : "gulp create"
+    "generate" : "gulp generate"
   },
   "dependencies": {
     "angular": "1.2.28",

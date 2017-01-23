@@ -8,6 +8,8 @@
 var config = require('./task.config'),
     fs = require('fs'),
     gulp = require('gulp'),
+    clean = require('gulp-clean'),
+    removeEmptyLines = require('gulp-remove-empty-lines'),
     prompt = require("gulp-prompt"),
     replace = require('gulp-replace'),    
     rename = require('gulp-rename'),
@@ -15,17 +17,39 @@ var config = require('./task.config'),
     gutil = require('gulp-util');
 
 var choices = Object.keys(config.templates.angular),
+    commandChoices = config.commands,
+    commandChoicesDefault = config.commands.length,
     choiceDefault = choices.length;
 const _CANCEL_ = 'Cancel';
     choices.push(_CANCEL_);
+    commandChoices.push(_CANCEL_);
     
 
     
-module.exports.create = createPrompt;
+module.exports.generate = taskPrompt;
 
-function createPrompt() {
+
+function taskPrompt() {
     
-    var promptTask = getPromptTask('create');
+    var promptTask = getPromptCommands();
+    
+    gulp.src('')
+        .pipe(prompt.prompt(promptTask, promptHandle));
+    
+    function promptHandle(res) {
+        if ( res.command && res.command !== _CANCEL_ ) {
+            gutil.log('Command Selected:', res.command); 
+            createPrompt(res.command);
+        } else {
+            gutil.log('Command has been canceled.');
+        }
+    } 
+}
+
+
+function createPrompt(command) {
+    
+    var promptTask = getPromptTask(command);
     
     gulp.src('')
         .pipe(prompt.prompt(promptTask, promptHandle));
@@ -33,7 +57,17 @@ function createPrompt() {
     function promptHandle(res) {
         if ( res.task && res.task !== _CANCEL_ ) {
             gutil.log('Task Selected:', res.task); 
-            createTask(res.task);
+            switch (command) {
+                case "Create":
+                    createTask(res.task);
+                    break;
+                case "Replace":
+                    break;
+                case "Delete":
+                    break;                
+                default:
+                    gutil.log('Task has been canceled.');
+            }
         } else {
             gutil.log('Task has been canceled.');
         }
@@ -82,12 +116,10 @@ function createTask(type){
                 }
                                
             } catch(e) {
-                 /* continue, no directory issues */
+                 /* continue, directory does not exist */
                 createTemplate(res.name, opts);                
             }
-    
-            
-            //addFeatureToStyles(res.name).on('error', gutil.log);
+                
         }
     }
     
@@ -138,6 +170,25 @@ function addSaasTemplateToStyles(baseName, opts) {
 
 
 
+function deleteTemplate(baseName, opts) {
+    return gulp.src(opts.target + baseName)
+        .pipe(clean({
+            force: true
+        })).on('error', gutil.log)
+        .on('end', function() {
+            deleteSaasTemplateFromStyles(baseName, opts);
+            gutil.log('Deleting template', baseName, 'Completed' );
+        });;
+}
+
+function deleteSaasTemplateFromStyles(baseName, opts) {
+    return gulp.src(options.css.mainFile)
+        .pipe(replace('@import "' + opts.target + baseName + '/' + baseName + '";', ''))
+        .pipe(removeEmptyLines())
+        .pipe(gulp.dest(config.css.sass)).on('error', gutil.log);
+}
+
+
 
 /* Expects name in 'widget-template' format
    Outputs 'WidgetTemplate' format */
@@ -168,5 +219,15 @@ function getPromptTask(command) {
         'message' : 'Which ' +command+ ' task would you like to run?',
         'choices' : choices,
         'default' : choiceDefault
+    }; 
+}
+
+function getPromptCommands() {
+     return {
+        'type' : 'rawlist',
+        'name' : 'command',
+        'message' : 'Which task would you like to run?',
+        'choices' : commandChoices,
+        'default' : commandChoicesDefault
     }; 
 }

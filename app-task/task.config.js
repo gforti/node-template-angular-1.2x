@@ -25,6 +25,7 @@ const CONFIG = {
         'mainFile' : './sass/app/application.scss',
         'vendorFile' : './sass/vendors/vendors.scss'
     },
+    'commands' : ['Create', 'Replace', 'Delete'],
     'images': {
         'path': ['./webapp/public/vendor/images/**/*.{png,gif,jpg,svg}'],
         'folder': 'img/'
