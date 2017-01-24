@@ -34,7 +34,11 @@ const CONFIG = {
         'angular': {
             'widget': {
                 'source': './templates/angular/widget-template/',
-                'target': './app-client/widgets/'
+                'target': './app-client/widgets/',
+                'messages' : {
+                    'prompt' : 'Name of widget (must be in "hello-world" format):',
+                    'cancel' : ''
+                }
             },
             'feature': {
                 'source' : './templates/angular/feature-template/',

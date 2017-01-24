@@ -26,10 +26,10 @@ const _CANCEL_ = 'Cancel';
     
 
     
-module.exports.generate = taskPrompt;
+module.exports.generate = commandsPrompt;
 
 
-function taskPrompt() {
+function commandsPrompt() {
     
     var promptTask = getPromptCommands();
     
@@ -39,7 +39,7 @@ function taskPrompt() {
     function promptHandle(res) {
         if ( res.command && res.command !== _CANCEL_ ) {
             gutil.log('Command Selected:', res.command); 
-            createPrompt(res.command);
+            taskPrompt(res.command);
         } else {
             gutil.log('Command has been canceled.');
         }
@@ -47,7 +47,7 @@ function taskPrompt() {
 }
 
 
-function createPrompt(command) {
+function taskPrompt(command) {
     
     var promptTask = getPromptTask(command);
     
@@ -56,25 +56,15 @@ function createPrompt(command) {
     
     function promptHandle(res) {
         if ( res.task && res.task !== _CANCEL_ ) {
-            gutil.log('Task Selected:', res.task); 
-            switch (command) {
-                case "Create":
-                    createTask(res.task);
-                    break;
-                case "Replace":
-                    break;
-                case "Delete":
-                    break;                
-                default:
-                    gutil.log('Task has been canceled.');
-            }
+            gutil.log('Task Selected:', res.task);
+            commandTask(res.task, command);            
         } else {
             gutil.log('Task has been canceled.');
         }
     } 
 }
 
-function createTask(type){
+function commandTask(type, command) {
     
     if ( !config.templates.angular.hasOwnProperty(type) ) {
         gutil.log("Task has been canceled. Could not find option.");
@@ -111,13 +101,13 @@ function createTask(type){
                 function promptConfirm(confirm) {
                     gutil.log('Confirm Selection', confirm.finish);
                     if ( confirm.finish === 'Continue' ) {
-                        createTemplate(res.name, opts);
+                        delegateCommandTask(command, res.name, opts);
                     }
                 }
                                
             } catch(e) {
                  /* continue, directory does not exist */
-                createTemplate(res.name, opts);                
+                 delegateCommandTask(command, res.name, opts);             
             }
                 
         }
@@ -125,6 +115,21 @@ function createTask(type){
     
     
     
+}
+
+function delegateCommandTask(command, baseName, opts) {
+     switch (command) {
+        case "Create":
+           createTemplate(baseName, opts);
+            break;
+        case "Replace":
+            break;
+        case "Delete":
+            deleteTemplate(baseName, opts);
+            break;                
+        default:
+            gutil.log('Task has been canceled.');
+    }
 }
 
 
@@ -171,21 +176,27 @@ function addSaasTemplateToStyles(baseName, opts) {
 
 
 function deleteTemplate(baseName, opts) {
+    gutil.log('Deleting template', baseName);
+    deleteSaasTemplateFromStyles(baseName, opts);
     return gulp.src(opts.target + baseName)
         .pipe(clean({
             force: true
-        })).on('error', gutil.log)
+        }))
+        .on('error', gutil.log)
         .on('end', function() {
-            deleteSaasTemplateFromStyles(baseName, opts);
-            gutil.log('Deleting template', baseName, 'Completed' );
-        });;
+            
+            
+        });
+
 }
 
 function deleteSaasTemplateFromStyles(baseName, opts) {
-    return gulp.src(options.css.mainFile)
+    gutil.log('Deleting template', baseName, 'Completed' );
+    return gulp.src(config.css.mainFile)
         .pipe(replace('@import "' + opts.target + baseName + '/' + baseName + '";', ''))
         .pipe(removeEmptyLines())
         .pipe(gulp.dest(config.css.sass)).on('error', gutil.log);
+        
 }
 
 
