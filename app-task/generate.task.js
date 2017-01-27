@@ -20,8 +20,10 @@ var choices = Object.keys(config.templates.angular),
     commandChoices = config.commands,
     commandChoicesDefault = config.commands.length,
     choiceDefault = choices.length;
-const _CANCEL_ = 'Cancel';
-    choices.push(_CANCEL_);
+const _CANCEL_ = 'Cancel',
+      _BACK_ = 'Back';
+var commonChoices = [_CANCEL_, _BACK_];
+    choices.push(_CANCEL_, _BACK_);
     commandChoices.push(_CANCEL_);
     
 
@@ -37,7 +39,7 @@ function commandsPrompt() {
         .pipe(prompt.prompt(promptTask, promptHandle));
     
     function promptHandle(res) {
-        if ( res.command && res.command !== _CANCEL_ ) {
+        if ( res.command && commonChoices.indexOf(res.command) === -1 ) {
             gutil.log('Command Selected:', res.command); 
             taskPrompt(res.command);
         } else {
@@ -55,9 +57,11 @@ function taskPrompt(command) {
         .pipe(prompt.prompt(promptTask, promptHandle));
     
     function promptHandle(res) {
-        if ( res.task && res.task !== _CANCEL_ ) {
+        if ( res.task && commonChoices.indexOf(res.task) === -1 ) {
             gutil.log('Task Selected:', res.task);
             commandTask(res.task, command);            
+        } else if ( res.task && res.task === _BACK_ ) {
+            commandsPrompt();
         } else {
             gutil.log('Task has been canceled.');
         }
