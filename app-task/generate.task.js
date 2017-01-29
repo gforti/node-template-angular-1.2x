@@ -81,6 +81,14 @@ function commandTask(type, command) {
             name: 'name',
             message: opts.messages.prompt
         }];
+    
+    if ( opts.messages.hasOwnProperty('location') ) {
+        promptInfo.push({
+            type: 'input',
+            name: 'location',
+            message: opts.messages.location
+        });
+    }
     // fix callback hell
     gulp.src('')
         .pipe(prompt.prompt(promptInfo, promptHandle));
@@ -89,42 +97,98 @@ function commandTask(type, command) {
     function promptHandle(res) {
         if (!res.name) {
             gutil.log('Task has been canceled. Empty Input');
+        } else if( res.name === config.js.module ) {
+            gutil.log('Input ' + res.name + ' cannot match module name ' + config.js.module);
+        } else if( res.location && res.location === config.js.module ) {
+            gutil.log('Input ' + res.location + ' cannot match module name ' + config.js.module);
         } else {            
-            try {
-                fs.statSync(opts.target + res.name);
-                var promptInfoConfirm = {
-                        'type' : 'rawlist',
-                        'name' : 'finish',
-                        'message' : res.name + ' already exist, are you sure you want to continue?',
-                        'choices' : ['Continue', 'Cancel'],
-                        'default' : 1
-                    };
-                gulp.src('')
-                .pipe(prompt.prompt(promptInfoConfirm, promptConfirm));
-                                
-                function promptConfirm(confirm) {
-                    gutil.log('Confirm Selection', confirm.finish);
-                    if ( confirm.finish === 'Continue' ) {
+            
+                if ( res.location ) {
+                    if ( directoryExist(opts.target + res.location) ) {
+                        
+                        delegateCommandTask(command, res.name, opts, res.location);
+                         
+                    } else {
+                        gutil.log('Location ' + res.location + ' could not be found');
+                    }
+                   
+                } else {
+                    if ( directoryExist(opts.target + res.name) ) {
+                        
+                         ConfirmLocation(opts.target + res.name).then(function(results) {
+                                delegateCommandTask(command, res.name, opts);
+                            }, function(err){
+                                gutil.log('Location ' + res.name + ' could not be found');
+                            });
+                        
+                    } else {
                         delegateCommandTask(command, res.name, opts);
                     }
                 }
+                
+                
+                
+                
                                
-            } catch(e) {
-                 /* continue, directory does not exist */
-                 delegateCommandTask(command, res.name, opts);             
-            }
+          
                 
         }
+        
+        
+        
+        function ConfirmLocation(loc) {
+            
+            return new Promise(function (resolve, reject) { 
+                var promptInfoConfirm = {
+                    'type' : 'rawlist',
+                    'name' : 'finish',
+                    'message' : loc + ' already exist, are you sure you want to continue?',
+                    'choices' : ['Continue', 'Cancel'],
+                    'default' : 1
+                };
+                gulp.src('')
+                .pipe(prompt.prompt(promptInfoConfirm, promptConfirm));
+
+                function promptConfirm(confirm) {
+                    gutil.log('Confirm Selection', confirm.finish);
+                    if ( confirm.finish === 'Continue' ) {
+                         resolve(true);
+                    } else {
+                        reject(false)
+                    }
+                }  
+            });
+            
+            
+        }
+        
+        
+        
+        
+        
+        
     }
+    
+    
+    
     
     
     
 }
 
-function delegateCommandTask(command, baseName, opts) {
+
+function directoryExist(loc) {
+    try {
+        return fs.statSync(loc);
+    } catch(e) {
+        return false;
+    }
+}
+
+function delegateCommandTask(command, baseName, opts, location) {
      switch (command) {
         case "Create":
-           createTemplate(baseName, opts);
+           createTemplate(baseName, opts, location);
             break;
         case "Replace":
             break;
@@ -138,18 +202,24 @@ function delegateCommandTask(command, baseName, opts) {
 
 
 /* Expects name in 'name-template' format */
-function createTemplate(baseName, opts) {
+function createTemplate(baseName, opts, location) {
     var nameTitleCase = titleCase(baseName),
         nameCamelCase = lowerCaseFirstLetter(nameTitleCase),
         SassName = '_' + baseName;
+    var featureNameCamelCase = (location ? lowerCaseFirstLetter(titleCase(location)) : '' );
+    
+    var targetLocation = opts.target + baseName;
+    if (location) {
+        targetLocation = opts.target + location;   
+    }
 
     gutil.log('Creating template', baseName);
     gulp.src(opts.source + "*")
         .pipe(replace('app', config.js.module))
         .pipe(replace(opts.nameCase.title, nameTitleCase))
-        .pipe(replace(opts.nameCase.title, nameTitleCase))
         .pipe(replace(opts.nameCase.camel, nameCamelCase))
         .pipe(replace(opts.nameCase.base, baseName))
+        .pipe(replace("featureTemplate", featureNameCamelCase))
         .pipe(rename(function (path) {
             var type = path.basename.split(".");
             path.basename = (path.extname === '.scss' ? SassName : baseName);
@@ -158,14 +228,14 @@ function createTemplate(baseName, opts) {
                 path.extname = '.' + type[1] + '.' + type[2] + path.extname;
             } else if (type[1]) {
                 path.extname = '.' + type[1] + path.extname;
-            } else {
-                path.extname = path.extname;
             }
         }))
-        .pipe(gulp.dest(opts.target + baseName))
+        .pipe(gulp.dest(targetLocation))
         .on('error', gutil.log)
         .on('end', function() {
-            addSaasTemplateToStyles(baseName, opts);
+            if ( !location ){
+                addSaasTemplateToStyles(baseName, opts);
+            }
             gutil.log('Creating template', baseName, 'Completed' );
         });
 }

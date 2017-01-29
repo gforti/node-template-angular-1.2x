@@ -55,7 +55,17 @@ const CONFIG = {
             },
             'factory': {
                 'source': './templates/angular/factory-template/',
-                'target': './app-client/'
+                'target': './app-client/',
+                'nameCase' : {
+                    'base' : 'factory-template',
+                    'camel' : 'factoryTemplate',
+                    'title' : 'FactoryTemplate'  
+                },
+                'messages' : {
+                    'prompt' : 'Name of factory (must be in "hello-world" format):',
+                    'location' : 'Current name of feature (must be in "hello-world" format):',
+                    'cancel' : ''
+                }
             },
             'service': {
                 'source': './templates/angular/service-template/',
