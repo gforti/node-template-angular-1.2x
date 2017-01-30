@@ -33,14 +33,21 @@ const CONFIG = {
     'templates': {
         'angular': {
             'widget': {
+                'redact' : true,
                 'source': './templates/angular/widget-template/',
                 'target': './app-client/widgets/',
+                'nameCase' : {
+                    'base' : 'widget-template',
+                    'camel' : 'widgetTemplate',
+                    'title' : 'WidgetTemplate'  
+                },
                 'messages' : {
                     'prompt' : 'Name of widget (must be in "hello-world" format):',
                     'cancel' : ''
                 }
             },
             'feature': {
+                'redact' : true,
                 'source' : './templates/angular/feature-template/',
                 'target' : './app-client/',
                 'nameCase' : {
@@ -54,6 +61,7 @@ const CONFIG = {
                 }
             },
             'factory': {
+                'redact' : false,
                 'source': './templates/angular/factory-template/',
                 'target': './app-client/',
                 'nameCase' : {
@@ -63,17 +71,39 @@ const CONFIG = {
                 },
                 'messages' : {
                     'prompt' : 'Name of factory (must be in "hello-world" format):',
-                    'location' : 'Current name of feature (must be in "hello-world" format):',
+                    'feature' : 'Current name of feature (must be in "hello-world" format):',
                     'cancel' : ''
                 }
             },
             'service': {
+                'redact' : false,
                 'source': './templates/angular/service-template/',
-                'target': './app-client/'
+                'target': './app-client/',
+                'nameCase' : {
+                    'base' : 'service-template',
+                    'camel' : 'serviceTemplate',
+                    'title' : 'ServiceTemplate'  
+                },
+                'messages' : {
+                    'prompt' : 'Name of service (must be in "hello-world" format):',
+                    'feature' : 'Current name of feature (must be in "hello-world" format):',
+                    'cancel' : ''
+                }
             },
             'provider': {
+                'redact' : false,
                 'source': './templates/angular/provider-template/',
-                'target': './app-client/'
+                'target': './app-client/',
+                'nameCase' : {
+                    'base' : 'provider-template',
+                    'camel' : 'providerTemplate',
+                    'title' : 'ProviderTemplate'  
+                },
+                'messages' : {
+                    'prompt' : 'Name of provider (must be in "hello-world" format):',
+                    'feature' : 'Current name of feature (must be in "hello-world" format):',
+                    'cancel' : ''
+                }
             },
             'modal': {
                 'source': './templates/angular/modal-template/',

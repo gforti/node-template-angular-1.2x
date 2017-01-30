@@ -19,17 +19,24 @@ var config = require('./task.config'),
 var choices = Object.keys(config.templates.angular),
     commandChoices = config.commands,
     commandChoicesDefault = config.commands.length,
-    choiceDefault = choices.length;
+    choiceDefault = choices.length,
+    redactChoices = choices.filter(isRedact),
+    redactDefault = redactChoices.length;
 const _CANCEL_ = 'Cancel',
       _BACK_ = 'Back';
 var commonChoices = [_CANCEL_, _BACK_];
     choices.push(_CANCEL_, _BACK_);
+    redactChoices.push(_CANCEL_, _BACK_);
     commandChoices.push(_CANCEL_);
     
 
     
 module.exports.generate = commandsPrompt;
 
+
+function isRedact(key){
+    return config.templates.angular[key].redact;
+}
 
 function commandsPrompt() {
     
@@ -68,25 +75,25 @@ function taskPrompt(command) {
     } 
 }
 
-function commandTask(type, command) {
+function commandTask(task, command) {
     
-    if ( !config.templates.angular.hasOwnProperty(type) ) {
+    if ( !config.templates.angular.hasOwnProperty(task) ) {
         gutil.log("Task has been canceled. Could not find option.");
         return;
     }
     
-    var opts = config.templates.angular[type],
+    var opts = config.templates.angular[task],
         promptInfo = [{
             type: 'input',
-            name: 'name',
+            name: 'baseName',
             message: opts.messages.prompt
         }];
     
-    if ( opts.messages.hasOwnProperty('location') ) {
+    if ( opts.messages.hasOwnProperty('feature') ) {
         promptInfo.push({
             type: 'input',
-            name: 'location',
-            message: opts.messages.location
+            name: 'featureName',
+            message: opts.messages.feature
         });
     }
     // fix callback hell
@@ -95,85 +102,52 @@ function commandTask(type, command) {
     
     
     function promptHandle(res) {
-        if (!res.name) {
+        if (!res.baseName) {
             gutil.log('Task has been canceled. Empty Input');
-        } else if( res.name === config.js.module ) {
-            gutil.log('Input ' + res.name + ' cannot match module name ' + config.js.module);
-        } else if( res.location && res.location === config.js.module ) {
+        } else if( res.baseName === config.js.module ) {
+            gutil.log('Input ' + res.baseName + ' cannot match module name ' + config.js.module);
+        } else if( res.featureName && res.featureName === config.js.module ) {
             gutil.log('Input ' + res.location + ' cannot match module name ' + config.js.module);
         } else {            
+            var targetLocation =  opts.target + ( res.featureName ? res.featureName : res.baseName );
+            res.featureName = res.featureName || null;
             
-                if ( res.location ) {
-                    if ( directoryExist(opts.target + res.location) ) {
-                        
-                        delegateCommandTask(command, res.name, opts, res.location);
-                         
-                    } else {
-                        gutil.log('Location ' + res.location + ' could not be found');
-                    }
-                   
-                } else {
-                    if ( directoryExist(opts.target + res.name) ) {
-                        
-                         ConfirmLocation(opts.target + res.name).then(function(results) {
-                                delegateCommandTask(command, res.name, opts);
-                            }, function(err){
-                                gutil.log('Location ' + res.name + ' could not be found');
-                            });
-                        
-                    } else {
-                        delegateCommandTask(command, res.name, opts);
-                    }
-                }
-                
-                
-                
-                
-                               
+            var msg = command + ' ' + task + ' ' + res.baseName;
+                msg += ( res.featureName ? ' to ' + res.featureName : '' );
+                msg += ' - Are you sure you want to continue?'
+            
+            var finishTask = true;
+            
+            if ( 'Create' === command ) {
+                if ( !res.featureName && directoryExist(targetLocation) ) {                
+                    gutil.log('Location ' + targetLocation + ' already exist. Please delete frist.');  
+                    finishTask = false;
+                } else if ( res.featureName && !directoryExist(targetLocation) ) {
+                    gutil.log('Location ' + targetLocation + ' does not exist. Please create the feature frist.');
+                    finishTask = false;
+                }                 
+            }
+            
+             if ( 'Delete' === command ) {
+                 if ( !directoryExist(targetLocation) ) {
+                    gutil.log('Location ' + targetLocation + ' does not exist. Cannot Delete.');
+                    finishTask = false;
+                }    
+             }
+            
+            if ( finishTask ) {
+                ConfirmChoice(msg).then(function(results) {
+                        delegateCommandTask(command, res.baseName, opts, res.featureName);
+                }, function(err){
+                    gutil.log('Aborted');
+                });
+            }
           
                 
         }
         
-        
-        
-        function ConfirmLocation(loc) {
-            
-            return new Promise(function (resolve, reject) { 
-                var promptInfoConfirm = {
-                    'type' : 'rawlist',
-                    'name' : 'finish',
-                    'message' : loc + ' already exist, are you sure you want to continue?',
-                    'choices' : ['Continue', 'Cancel'],
-                    'default' : 1
-                };
-                gulp.src('')
-                .pipe(prompt.prompt(promptInfoConfirm, promptConfirm));
-
-                function promptConfirm(confirm) {
-                    gutil.log('Confirm Selection', confirm.finish);
-                    if ( confirm.finish === 'Continue' ) {
-                         resolve(true);
-                    } else {
-                        reject(false)
-                    }
-                }  
-            });
-            
-            
-        }
-        
-        
-        
-        
-        
-        
     }
-    
-    
-    
-    
-    
-    
+        
 }
 
 
@@ -185,10 +159,37 @@ function directoryExist(loc) {
     }
 }
 
-function delegateCommandTask(command, baseName, opts, location) {
+
+function ConfirmChoice(msg) {
+            
+    return new Promise(function (resolve, reject) { 
+        var promptInfoConfirm = {
+            'type' : 'rawlist',
+            'name' : 'finish',
+            'message' : msg,
+            'choices' : ['Continue', 'Cancel'],
+            'default' : 1
+        };
+        gulp.src('')
+        .pipe(prompt.prompt(promptInfoConfirm, promptConfirm));
+
+        function promptConfirm(confirm) {
+            gutil.log('Confirm Selection', confirm.finish);
+            if ( confirm.finish === 'Continue' ) {
+                 resolve(true);
+            } else {
+                reject(false)
+            }
+        }  
+    });
+
+
+}
+
+function delegateCommandTask(command, baseName, opts, featureName) {
      switch (command) {
         case "Create":
-           createTemplate(baseName, opts, location);
+           createTemplate(baseName, opts, featureName);
             break;
         case "Replace":
             break;
@@ -202,15 +203,15 @@ function delegateCommandTask(command, baseName, opts, location) {
 
 
 /* Expects name in 'name-template' format */
-function createTemplate(baseName, opts, location) {
+function createTemplate(baseName, opts, featureName) {
     var nameTitleCase = titleCase(baseName),
         nameCamelCase = lowerCaseFirstLetter(nameTitleCase),
         SassName = '_' + baseName;
-    var featureNameCamelCase = (location ? lowerCaseFirstLetter(titleCase(location)) : '' );
+    var featureNameCamelCase = (featureName ? lowerCaseFirstLetter(titleCase(featureName)) : 'featureTemplate' );
     
     var targetLocation = opts.target + baseName;
-    if (location) {
-        targetLocation = opts.target + location;   
+    if (featureName) {
+        targetLocation = opts.target + featureName;   
     }
 
     gutil.log('Creating template', baseName);
@@ -233,7 +234,7 @@ function createTemplate(baseName, opts, location) {
         .pipe(gulp.dest(targetLocation))
         .on('error', gutil.log)
         .on('end', function() {
-            if ( !location ){
+            if ( !featureName ){
                 addSaasTemplateToStyles(baseName, opts);
             }
             gutil.log('Creating template', baseName, 'Completed' );
@@ -298,16 +299,23 @@ function lowerCaseFirstLetter(string) {
 
 
 function getPromptTask(command) {
+    var choiceList = redactChoices, choiceListDefault = redactDefault;
+    if ( 'Create' === command ) {
+        choiceList = choices;
+        choiceListDefault = choiceDefault;
+    }
+       
      return {
         'type' : 'rawlist',
         'name' : 'task',
-        'message' : 'Which ' +command+ ' task would you like to run?',
-        'choices' : choices,
-        'default' : choiceDefault
+        'message' : 'Which ' + command + ' task would you like to run?',
+        'choices' : choiceList,
+        'default' : choiceListDefault
     }; 
 }
 
 function getPromptCommands() {
+    
      return {
         'type' : 'rawlist',
         'name' : 'command',
