@@ -3,7 +3,7 @@
     describe('Service: ProviderTemplateProvider', function() {
         var service;
 
-        beforeEach(module('pdr'));
+        beforeEach(module('app'));
 
         beforeEach(inject(function(_ProviderTemplateProvider_) {
             service = _ProviderTemplateProvider_;

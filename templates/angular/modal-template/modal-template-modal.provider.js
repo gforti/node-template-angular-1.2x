@@ -3,12 +3,12 @@
 
     /**
      * @ngdoc service
-     * @name pdr.widgets.ModalTemplateModalProvider
+     * @name app.widgets.ModalTemplateModalProvider
      * @description Provides a collection of services for featureTemplate
      */
 
     angular
-        .module('pdr.widgets')
+        .module('app.widgets')
         .factory('ModalTemplateModalProvider', ModalTemplateModalProvider);
 
     ModalTemplateModalProvider.$inject = ['ModalTemplateModalConstants'];
@@ -31,7 +31,7 @@
         /**
          * @ngdoc method
          * @name sampleMethod
-         * @methodOf pdr.widgets.ModalTemplateModalProvider
+         * @methodOf app.widgets.ModalTemplateModalProvider
          * @param {string} your param need
          * @returns {*} The instance
          */

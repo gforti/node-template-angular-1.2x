@@ -3,21 +3,21 @@
 
     /**
      * @ngdoc directive
-     * @name pdr.widgets:widgetTemplate
+     * @name app.widgets:widgetTemplate
      * @restrict EA
      * @element
      *
      * @description
      *
      * @example
-     <example module="pdr.widgets">
+     <example module="app.widgets">
      <div data-widget-template=""></div>
      </example>
      *
      */
 
     angular
-        .module('pdr.widgets')
+        .module('app.widgets')
         .directive('widgetTemplate', WidgetTemplate);
 
     WidgetTemplate.$inject = [];

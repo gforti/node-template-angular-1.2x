@@ -3,12 +3,12 @@
 
     /**
      * @ngdoc service
-     * @name pdr.featureTemplate.ServiceTemplateService
+     * @name app.featureTemplate.ServiceTemplateService
      * @description Provides a service for featureTemplate
      */
 
     angular
-        .module('pdr.featureTemplate')
+        .module('app.featureTemplate')
         .factory('ServiceTemplateService', ServiceTemplateService);
 
     ServiceTemplateService.$inject = [];
@@ -31,7 +31,7 @@
         /**
          * @ngdoc method
          * @name sampleMethod
-         * @methodOf pdr.featureTemplate.ServiceTemplateService
+         * @methodOf app.featureTemplate.ServiceTemplateService
          * @param {string} your param need
          * @param {string=} An optional string.
          * @returns {*} The instance

@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc controller
-     * @name pdr.widgets.ModalTemplateModalController
+     * @name app.widgets.ModalTemplateModalController
      * @requires
      * @description
      *
@@ -33,7 +33,7 @@
      *
      */
     angular
-        .module('pdr.widgets')
+        .module('app.widgets')
         .controller('ModalTemplateModalController', ModalTemplateModalController);
 
     ModalTemplateModalController.$inject = ['$modalInstance', 'ModalTemplateModalProvider', 'DependencyInjection'];
@@ -55,7 +55,7 @@
         /**
          * @ngdoc method
          * @name activate
-         * @methodOf pdr.widgets.ModalTemplateModalController
+         * @methodOf app.widgets.ModalTemplateModalController
          * @returns {void} Runs the functions needed when the controller is active
          */
         function activate() {
@@ -69,7 +69,7 @@
         /**
          * @ngdoc method
          * @name cancelModal
-         * @methodOf pdr.widgets.ModalTemplateModalProvider
+         * @methodOf app.widgets.ModalTemplateModalProvider
          * @returns {void} Runs the functions needed to cancel the modal
          */
         function cancelModal(){
@@ -79,7 +79,7 @@
         /**
          * @ngdoc method
          * @name submitModal
-         * @methodOf pdr.widgets.ModalTemplateModalController
+         * @methodOf app.widgets.ModalTemplateModalController
          * @returns {void} Runs the functions needed to submit the modal
          */
         function submitModal(){
