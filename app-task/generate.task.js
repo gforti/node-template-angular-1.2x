@@ -14,7 +14,8 @@ var config = require('./task.config'),
     replace = require('gulp-replace'),    
     rename = require('gulp-rename'),
     insert = require('gulp-insert'),
-    gutil = require('gulp-util');
+    gutil = require('gulp-util'),
+    gulpDocs = require('gulp-ngdocs');
 
 var choices = Object.keys(config.templates.angular),
     commandChoices = config.commands,
@@ -32,6 +33,27 @@ var commonChoices = [_CANCEL_, _BACK_];
 
     
 module.exports.generate = commandsPrompt;
+module.exports.generateDocs = docs;
+module.exports.seeDocs = seeDocs;
+
+
+function docs() {
+    
+    return gulp.src(['app-client/**/*.js', '!app-client/**/*.spec.js'])
+    .pipe(gulpDocs.process())
+    .pipe(gulp.dest('./docs'));
+    
+}
+
+function seeDocs() {
+    var connect = require('gulp-connect');
+  connect.server({
+    root: 'docs',
+    livereload: false,
+    fallback: 'docs/index.html',
+    port: 8083
+  });
+}
 
 
 function isRedact(key){

@@ -158,6 +158,8 @@ gulp.task('lint', function () {
 gulp.task('generate', generateJS.generate);
 gulp.task('bundle-app', bundleJS.bundleApp);
 gulp.task('bundle-all', bundleJS.bundleAll);
+gulp.task('docs', generateJS.generateDocs);
+gulp.task('see-docs', generateJS.seeDocs);
 
 
 gulp.task('watch', function () {
