@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node main.js",
     "bundle-all" : "gulp bundle-all",
-    "bundle-app" : "gulp app",
+    "bundle-app" : "gulp bundle-app",
     "generate" : "gulp generate"
   },
   "dependencies": {

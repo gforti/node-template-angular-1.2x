@@ -156,7 +156,7 @@ gulp.task('lint', function () {
 
 
 gulp.task('generate', generateJS.generate);
-gulp.task('app', bundleJS.bundleApp);
+gulp.task('bundle-app', bundleJS.bundleApp);
 gulp.task('bundle-all', bundleJS.bundleAll);
 
 
