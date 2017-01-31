@@ -6,13 +6,8 @@
      * @name app.widgets.widgetTemplate
      * @restrict EA
      * @element
-     *
-     * @description
-     * 
-     * Widget to be used in a feature  
-     * 
+     * @description Widget to be used in a feature
      * @param {String=} [widgetTemplate='widget-template'] Default scope value
-     *
      */
 
     angular
