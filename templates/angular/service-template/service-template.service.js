@@ -15,7 +15,14 @@
 
     /* @ngInject */
     function ServiceTemplateService() {
-
+        
+        /**
+         * @ngdoc property
+         * @name #service 
+         * @propertyOf app.featureTemplate.ServiceTemplateService
+         * @returns {This} ServiceTemplateService 
+         * @description All Public methods must be linked to this variable. 
+         */
         var service = {
             'sampleMethod' : sampleMethod
         };
@@ -32,9 +39,7 @@
          * @ngdoc method
          * @name sampleMethod
          * @methodOf app.featureTemplate.ServiceTemplateService
-         * @param {string} your param need
-         * @param {string=} An optional string.
-         * @returns {*} The instance
+         * @returns {This} The instance
          */
         function sampleMethod() {
             /* Since Interceptors are in use to handle global errors with http calls,

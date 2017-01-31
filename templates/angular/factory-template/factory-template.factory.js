@@ -11,11 +11,11 @@
      * Other Patterns won't work because of this service being a singleton
      *
      * @example
-     *
+     * 
      * The following shows you to create a new base model, overloading, how to call
      * a method within, and how to make a call the super function
      *
-     * '''js
+     * <pre>
      * var config = {};
      * var model = new FactoryTemplateFactory(config);
      *
@@ -32,7 +32,7 @@
      *   return this;
      *
      * };
-     * '''
+     * </pre>
      */
 
     angular
@@ -41,20 +41,29 @@
 
     FactoryTemplateFactory.$inject = [];
 
-
     function FactoryTemplateFactory() {
-
 
         /**
          * @ngdoc method
-         * @name Model
+         * @name Constructor
          * @methodOf app.featureTemplate.FactoryTemplateFactory
-         * @param {object=} optional config
-         * @returns {void}
+         * @param {Object=} [config={}] JSON configuration object
          */
-
         function Model(config) {
+            /**
+             * @ngdoc property
+             * @name #config 
+             * @propertyOf app.featureTemplate.FactoryTemplateFactory
+             * @returns {Object} JSON 
+             */
             this.config = config || {};
+            /**
+             * @ngdoc property
+             * @name #_properties 
+             * @propertyOf app.featureTemplate.FactoryTemplateFactory
+             * @returns {Object} Mixed 
+             * @description Gives access to all class properties.
+             */
             this._properties = {
                 'sampleProperty' : null
             };
@@ -65,16 +74,16 @@
              * @ngdoc method
              * @name sampleMethod
              * @methodOf app.featureTemplate.FactoryTemplateFactory
-             * @returns {*} The instance
+             * @returns {This} The instance
              */
             'sampleMethod': function () {
                 return this;
             },
             /**
              * @ngdoc method
-             * @name sampleMethod
+             * @name overRideSampleMethod
              * @methodOf app.featureTemplate.FactoryTemplateFactory
-             * @returns {void}
+             * @description Throws Error. Function must be implemented
              */
             'overRideSampleMethod': function () {
                 throw new Error('Please over ride this method!');
@@ -83,7 +92,7 @@
              * @ngdoc method
              * @name getSampleProperty
              * @methodOf app.featureTemplate.FactoryTemplateFactory
-             * @returns {null}
+             * @returns {Null} Null Value
              */
             'getSampleProperty': function () {
                 return this._properties.sampleProperty;
@@ -92,8 +101,8 @@
              * @ngdoc method
              * @name setSampleProperty
              * @methodOf app.featureTemplate.FactoryTemplateFactory
-             * @param {string} str
-             * @returns {*} The instance
+             * @param {String} str Argument must be a String
+             * @returns {This} The instance
              */
             'setSampleProperty': function (str) {
                 /* You can throw an error if a string is not passed but you decide if the else statement is necessary */

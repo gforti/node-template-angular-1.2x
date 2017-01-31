@@ -4,7 +4,6 @@
     /**
      * @ngdoc overview
      * @name app.widgets
-     * @requires
      * @description
      *
      * This is the main script, which does the following:

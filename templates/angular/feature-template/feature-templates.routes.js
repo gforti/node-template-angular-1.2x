@@ -4,7 +4,8 @@
     /**
      * @ngdoc object
      * @name app.featureTemplate.featureTemplateRoutes
-     * @requires $stateProvider
+     * @requires 
+     * $stateProvider
      * @description
      *
      * This script loads all the routes for feature-template
@@ -16,6 +17,12 @@
 
     featureTemplateRoutes.$inject = ['$stateProvider'];
 
+    /**
+     * @ngdoc method
+     * @name featureTemplateRoutes
+     * @methodOf app.featureTemplate.featureTemplateRoutes
+     * @description Function that will be used to set the location of the feature.
+     */
     function featureTemplateRoutes($stateProvider) {
 
         var featureTemplateStateConfig = {

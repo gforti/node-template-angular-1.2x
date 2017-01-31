@@ -3,16 +3,15 @@
 
     /**
      * @ngdoc directive
-     * @name app.widgets:widgetTemplate
+     * @name app.widgets.widgetTemplate
      * @restrict EA
      * @element
      *
      * @description
-     *
-     * @example
-     <example module="app.widgets">
-     <div data-widget-template=""></div>
-     </example>
+     * 
+     * Widget to be used in a feature  
+     * 
+     * @param {String=} [widgetTemplate='widget-template'] Default scope value
      *
      */
 

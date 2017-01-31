@@ -135,7 +135,7 @@ function commandTask(task, command) {
             res.featureName = res.featureName || null;
             
             var msg = command + ' ' + task + ' ' + res.baseName;
-                msg += ( res.featureName ? ' to ' + res.featureName : '' );
+                msg += ( res.featureName ? ' into ' + res.featureName : '' );
                 msg += ' - Are you sure you want to continue?'
             
             var finishTask = true;

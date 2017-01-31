@@ -4,7 +4,7 @@
     /**
      * @ngdoc service
      * @name app.featureTemplate.ProviderTemplateProvider
-     * @description Provides a collection of services for featureTemplate
+     * @description Provides a collection of services and methods for featureTemplate
      */
 
     angular
@@ -16,6 +16,13 @@
     /* @ngInject */
     function ProviderTemplateProvider() {
 
+        /**
+         * @ngdoc property
+         * @name #service 
+         * @propertyOf app.featureTemplate.FeatureTemplateProvider
+         * @returns {This} FeatureTemplateProvider 
+         * @description All Public methods must be linked to this variable. 
+         */
         var service = {
             'sampleMethod' : sampleMethod
         };
@@ -31,9 +38,8 @@
         /**
          * @ngdoc method
          * @name sampleMethod
-         * @methodOf app.featureTemplate.ProviderTemplateProvider
-         * @param {string} your param need
-         * @returns {*} The instance
+         * @methodOf app.featureTemplate.FeatureTemplateProvider
+         * @returns {This} The instance
          */
         function sampleMethod() {
             return service;

@@ -5,6 +5,7 @@
      * @ngdoc overview
      * @name app
      * @requires
+     * ui.router
      * @description
      *
      * This is the main application script, which does the following:

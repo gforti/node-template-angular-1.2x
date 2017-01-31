@@ -13,6 +13,13 @@
     angular
         .module('app.featureTemplate')
         .constant('FeatureTemplateConstants', {
+            /**
+             * @ngdoc property
+             * @name #RequestEndpoints 
+             * @propertyOf app.featureTemplate.FeatureTemplateConstants
+             * @returns {Object} JSON 
+             * @description A list of restful endpoints.
+             */
             'RequestEndpoints': {
                 'RestService': ''
             }
